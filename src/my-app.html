@@ -19,7 +19,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/paperfire-auth/paperfire-auth.html">
+<link href="../bower_components/iron-icons/iron-icons.html" rel="import">
+
+<link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+
 <link rel="import" href="my-icons.html">
 
 <dom-module id="my-app">
@@ -61,9 +73,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         font-weight: bold;
       }
+      paper-fab{
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+      }
+      @media screen and (min-width: 641px) {
+        paper-fab{
+          position: fixed;
+          left: 228px;
+          bottom: 48px;
+          z-index: 1000;
+        }
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
+    <firebase-app id="fireApp" app-name="drumpf" api-key="AIzaSyBA-jmvDz-c9MG_in9HYCmiV4gbZpBpR2E" auth-domain="project-drumpf.firebaseapp.com" database-url="https://project-drumpf.firebaseio.com" storage-bucket="project-drumpf.appspot.com" messaging-sender-id="329183577410"></firebase-app>
+    <paperfire-auth anon-login is-anonymous="{{isAnon}}"></paperfire-auth>
     <app-route
         route="{{route}}"
         pattern="/:page"
@@ -73,11 +100,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
       <app-drawer>
-        <app-toolbar>Menu</app-toolbar>
+        <app-toolbar>Menu [[isAnon]]</app-toolbar>
+
+
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="/view1">View One</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
+          <a name="view1" href="/view1">Drumpf</a>
+          <a name="view2" href="/view2">I know words</a>
+          <a name="view3" href="/view3">Support</a>
         </iron-selector>
       </app-drawer>
 
@@ -87,7 +116,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App</div>
+            <div main-title>Here Lies Donald Trump</div>
           </app-toolbar>
         </app-header>
 
@@ -102,7 +131,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
+
+      <paper-fab icon="add" on-tap="onAddQuote">+</paper-fab>
     </app-drawer-layout>
+    <paper-dialog entry-animation="scale-up-animation"
+              exit-animation="fade-out-animation" id="addQuoteModal">
+  <h2>Add Quote</h2>
+  <div>Dialog body</div>
+  <ul>
+    <li>Something Trump said that's true</li>
+    <li>Something Trump said that's false</li>
+    <li>Something Trump didn't say</li>
+    <li>link to source</li>
+    <li>video?</li>
+  </ul>
+  <paper-button>Submit</paper-button>
+</paper-dialog>
   </template>
 
   <script>
@@ -133,6 +177,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _showPage404: function() {
         this.page = 'view404';
+      },
+
+      onAddQuote: function() {
+        this.$.addQuoteModal.open();
       }
     });
   </script>

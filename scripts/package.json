@@ -1,0 +1,21 @@
+{
+  "name": "phonetics-matcher",
+  "version": "0.0.1",
+  "description": "A script to match phoetics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "phonetics",
+    "text",
+    "analysis"
+  ],
+  "author": "Alexander Kushi-Willis <alexander@ackushiw.com> (http://www.ackushiw.com)",
+  "license": "MIT",
+  "dependencies": {
+    "clj-fuzzy": "^0.3.3",
+    "lodash": "^4.16.4"
+  }
+}
